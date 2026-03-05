@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "loginUser": "julian.criales@gmail.com",
+  "loginPassword": "Julian123*",
+  "executionArgs": {
+    "projectName": "ori-app",
+    "projectPath": "c:\\Users\\julia\\OneDrive\\Documentos\\Proyectos Antigravity\\Ori chat\\ori-app",
+    "testIds": [],
+    "additionalInstruction": "Login credentials: email 'julian.criales@gmail.com', password 'Julian123*'. The app is in Spanish. The login page is at /login route. After login, user is redirected to / (Dashboard). The admin panel uses a sidebar layout (AdminLayout) for navigation. The app is running in production mode via 'vite preview' on port 5173.",
+    "serverMode": "production",
+    "envs": {
+      "API_KEY": "sk-user-oB20_R7_FJnhclOv5qo2wzHhuUwkP1nK5BXdrzqcsTuVlrgeHgLkFlHlV_5jZ0PDzQK13oKzY8jluglLcH6Ks7wkIPrUQRb4DjTul8dSeZlcUfQlnTRA3aqC2x4eFHybro8"
+    }
+  },
+  "serverPort": 52363,
+  "proxy": "http://b5ac48c0-fdec-41b8-981a-9a664462ab05:sk2VT2i2t4Zy6dGnRcsOafW3MUKz1NMR@tun.testsprite.com:8080"
+}

@@ -1,0 +1,227 @@
+version: "2"
+type: frontend
+tech_stack:
+  - javascript
+  - react
+  - tailwindcss
+  - vite
+  - supabase
+  - recharts
+  - lucide-react
+routes:
+  - path: /login
+    file: src/pages/LoginPage.jsx
+    auth_required: false
+    description: Admin login page with email and password
+  - path: /
+    file: src/pages/DashboardPage.jsx
+    auth_required: true
+    description: Dashboard with stats, charts and recent conversations
+  - path: /api-config
+    file: src/pages/ApiConfigPage.jsx
+    auth_required: true
+    description: OpenAI API key and model configuration
+  - path: /bot-identity
+    file: src/pages/BotIdentityPage.jsx
+    auth_required: true
+    description: Bot name, avatar, messages and behavior settings
+  - path: /knowledge-base
+    file: src/pages/KnowledgeBasePage.jsx
+    auth_required: true
+    description: Crawl URLs, documents, and knowledge chunks management
+  - path: /widget
+    file: src/pages/WidgetCustomizerPage.jsx
+    auth_required: true
+    description: Widget color, position, size customization with live preview
+  - path: /conversations
+    file: src/pages/ConversationsPage.jsx
+    auth_required: true
+    description: Chat session history and leads table with CSV export
+  - path: /integrations
+    file: src/pages/IntegrationsPage.jsx
+    auth_required: true
+    description: Webhook URL configuration and email notifications
+features:
+  - name: User Login
+    description: Login with email and password via Supabase Auth
+    files:
+      - src/pages/LoginPage.jsx
+      - src/hooks/useAuth.jsx
+      - src/adapters/supabase-adapter.js
+    entry_route: /login
+    user_interactions:
+      - Fill email input field
+      - Fill password input field
+      - Click Iniciar sesion button to submit
+      - See error message on invalid credentials
+      - Redirect to dashboard on successful login
+    api_calls:
+      - method: POST
+        endpoint: /auth/v1/token?grant_type=password
+    auth_required: false
+  - name: Dashboard Analytics
+    description: View key metrics, charts and recent conversations
+    files:
+      - src/pages/DashboardPage.jsx
+    entry_route: /
+    user_interactions:
+      - View stat cards showing conversations, leads, satisfaction, fallback rate
+      - View weekly trends area chart
+      - View leads bar chart
+      - View recent conversations table
+    api_calls:
+      - method: GET
+        endpoint: /rest/v1/chat_sessions
+      - method: GET
+        endpoint: /rest/v1/leads
+    auth_required: true
+  - name: API Configuration
+    description: Configure OpenAI API key, model, temperature and max tokens
+    files:
+      - src/pages/ApiConfigPage.jsx
+    entry_route: /api-config
+    user_interactions:
+      - Enter OpenAI API key in masked input
+      - Select AI model from card options
+      - Adjust temperature slider
+      - Adjust max tokens slider
+      - Click Guardar configuracion button
+      - See success or error feedback
+    api_calls:
+      - method: POST
+        endpoint: /rest/v1/ai_config
+    auth_required: true
+  - name: Bot Identity Settings
+    description: Configure bot name, avatar, welcome messages, system prompt, quick replies
+    files:
+      - src/pages/BotIdentityPage.jsx
+    entry_route: /bot-identity
+    user_interactions:
+      - Change bot name in text input
+      - Upload avatar image
+      - Edit welcome messages in Spanish and English textareas
+      - Edit system prompt textarea
+      - Add quick reply chips
+      - Remove quick reply chips
+      - Edit fallback message
+      - Set WhatsApp URL
+      - Select timezone
+      - Click Guardar cambios button
+    api_calls:
+      - method: GET
+        endpoint: /rest/v1/bot_settings
+      - method: POST
+        endpoint: /rest/v1/bot_settings
+    auth_required: true
+  - name: Knowledge Base Management
+    description: Manage crawl URLs, uploaded documents, and browse indexed chunks
+    files:
+      - src/pages/KnowledgeBasePage.jsx
+    entry_route: /knowledge-base
+    user_interactions:
+      - Click Agregar URL button
+      - Enter URL in input field
+      - Select crawl depth from dropdown
+      - Click Agregar to add the URL
+      - Click re-crawl button on existing URLs
+      - Click delete button to remove URLs
+      - Upload document files
+      - Expand chunks browser section
+      - Search within indexed chunks
+      - Delete individual chunks
+    api_calls:
+      - method: GET
+        endpoint: /rest/v1/crawl_urls
+      - method: POST
+        endpoint: /rest/v1/crawl_urls
+      - method: DELETE
+        endpoint: /rest/v1/crawl_urls
+      - method: POST
+        endpoint: /admin/crawl
+    auth_required: true
+  - name: Widget Customizer
+    description: Customize widget appearance with live preview and get embed code
+    files:
+      - src/pages/WidgetCustomizerPage.jsx
+    entry_route: /widget
+    user_interactions:
+      - Change primary color using color picker
+      - Change background color using color picker
+      - Change text color using color picker
+      - Toggle widget position between bottom-right and bottom-left
+      - Adjust width slider
+      - Adjust height slider
+      - Toggle show powered by
+      - Toggle show feedback buttons
+      - Add approved domains
+      - Remove approved domains
+      - View live widget preview
+      - Copy embed code snippet
+      - Click Guardar configuracion button
+    api_calls:
+      - method: GET
+        endpoint: /rest/v1/widget_config
+      - method: POST
+        endpoint: /rest/v1/widget_config
+    auth_required: true
+  - name: Conversations and Leads
+    description: View chat session history with expandable messages and manage leads
+    files:
+      - src/pages/ConversationsPage.jsx
+    entry_route: /conversations
+    user_interactions:
+      - Switch between Conversaciones and Leads tabs
+      - Search conversations by session ID
+      - Click conversation to expand and view messages
+      - View leads table with name email whatsapp
+      - Click Exportar CSV button to download leads
+    api_calls:
+      - method: GET
+        endpoint: /rest/v1/chat_sessions
+      - method: GET
+        endpoint: /rest/v1/leads
+      - method: GET
+        endpoint: /rest/v1/chat_messages
+    auth_required: true
+  - name: Integrations
+    description: Configure webhook URL and email notifications for lead capture
+    files:
+      - src/pages/IntegrationsPage.jsx
+    entry_route: /integrations
+    user_interactions:
+      - Enter webhook URL in input field
+      - Click Test button to send test webhook
+      - See webhook test success or error feedback
+      - Toggle email notifications
+      - Enter notification email when toggled on
+      - View payload format example
+      - Click Guardar configuracion button
+    api_calls:
+      - method: GET
+        endpoint: /rest/v1/integrations
+      - method: POST
+        endpoint: /rest/v1/integrations
+    auth_required: true
+  - name: Sidebar Navigation
+    description: Navigate between admin panel sections via sidebar
+    files:
+      - src/components/organisms/AdminLayout.jsx
+    entry_route: /
+    user_interactions:
+      - Click Dashboard nav link
+      - Click Configuracion API nav link
+      - Click Identidad del Bot nav link
+      - Click Knowledge Base nav link
+      - Click Widget nav link
+      - Click Conversaciones nav link
+      - Click Integraciones nav link
+      - Click Cerrar sesion button
+    api_calls: []
+    auth_required: true
+known_limitations:
+  - issue: Document upload handler is not implemented yet (placeholder)
+    location: src/pages/KnowledgeBasePage.jsx
+    impact: File upload button exists but does not process files
+  - issue: Dashboard uses mock data when no real data exists
+    location: src/pages/DashboardPage.jsx
+    impact: Charts and stats show zeros or empty states without real conversations

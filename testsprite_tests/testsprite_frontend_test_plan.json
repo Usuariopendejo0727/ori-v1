@@ -1,0 +1,2376 @@
+[
+  {
+    "id": "TC001",
+    "title": "Dashboard loads and shows key analytics sections",
+    "description": "Verifies that the authenticated user can load the Dashboard and see stat cards, charts, and the recent conversations table.",
+    "category": "Dashboard Analytics",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Conversations\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Leads\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Recent conversations\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Dashboard stat cards are visible and labeled correctly",
+    "description": "Verifies the Dashboard shows the expected stat card labels for high-level metrics.",
+    "category": "Dashboard Analytics",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Satisfaction\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Fallback\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"stat\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Weekly trends area chart is displayed on Dashboard",
+    "description": "Verifies the weekly trends area chart section is present and visible on the Dashboard.",
+    "category": "Dashboard Analytics",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the weekly trends section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Weekly\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"area chart\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Leads bar chart is displayed on Dashboard",
+    "description": "Verifies the leads bar chart section is present and visible on the Dashboard.",
+    "category": "Dashboard Analytics",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the leads chart section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Leads\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"bar chart\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Recent conversations table is visible and has headers",
+    "description": "Verifies the recent conversations table renders and shows expected column headers.",
+    "category": "Dashboard Analytics",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the recent conversations section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Recent conversations\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"table\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Dashboard supports empty/zero state when no real data exists",
+    "description": "Verifies the Dashboard can show an empty/zero state without breaking when mock data or no data is available.",
+    "category": "Dashboard Analytics",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"0\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Recent conversations\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No conversations\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Dashboard remains usable after refresh-like reload (re-authenticated session)",
+    "description": "Verifies the Dashboard still loads its analytics sections after a page reload scenario while logged in.",
+    "category": "Dashboard Analytics",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Conversations\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Recent conversations\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Dashboard shows stable layout when charts are present (no missing sections)",
+    "description": "Verifies the Dashboard does not show missing/blank analytics sections when charts and stats render.",
+    "category": "Dashboard Analytics",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Sign in\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"weekly trends\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"leads\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"recent conversations\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Save API configuration with valid key and model only (default slider values)",
+    "description": "Verifies saving works when only required fields are set and sliders remain at their defaults, showing success feedback.",
+    "category": "API Configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"API Config\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"sk-valid-test-key-abcdef\" into the OpenAI API key masked input"
+      },
+      {
+        "type": "action",
+        "description": "Click on an AI model card option (e.g., \"gpt-4.1-mini\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Configuración guardada\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Show error feedback when API key validation fails",
+    "description": "Verifies the page displays a visible error message when an invalid API key is provided and saving is attempted.",
+    "category": "API Configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"API Config\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"not-a-real-key\" into the OpenAI API key masked input"
+      },
+      {
+        "type": "action",
+        "description": "Click on an AI model card option (e.g., \"gpt-4o-mini\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Error\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Prevent saving when API key is empty",
+    "description": "Verifies the user cannot save the configuration without an API key and sees visible validation feedback.",
+    "category": "API Configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"API Config\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Click on an AI model card option (e.g., \"gpt-4o-mini\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"API key\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Prevent saving when no model is selected",
+    "description": "Verifies the user cannot save without selecting a model and sees visible validation or error feedback.",
+    "category": "API Configuration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"API Config\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"sk-valid-test-key-111111\" into the OpenAI API key masked input"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"modelo\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Change model selection and save the new selection",
+    "description": "Verifies switching between model cards updates the selected model and the configuration can be saved successfully.",
+    "category": "API Configuration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"API Config\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"sk-valid-test-key-222222\" into the OpenAI API key masked input"
+      },
+      {
+        "type": "action",
+        "description": "Click on an AI model card option (first model)"
+      },
+      {
+        "type": "action",
+        "description": "Click on a different AI model card option (second model)"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Configuración guardada\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Show error feedback when saving fails due to server/network issue (observable via UI)",
+    "description": "Verifies that when the save operation fails for any reason, the UI presents a visible error feedback message instead of success.",
+    "category": "API Configuration",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"API Config\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"sk-valid-test-key-trigger-error\" into the OpenAI API key masked input"
+      },
+      {
+        "type": "action",
+        "description": "Click on an AI model card option (e.g., \"gpt-4o-mini\")"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No se pudo guardar\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Save bot identity settings successfully (name, welcome messages, system prompt, quick replies)",
+    "description": "Verifies an authenticated user can update core bot identity settings and sees a visible success confirmation.",
+    "category": "Bot Identity Settings",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Bot Identity\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/bot-identity\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"Ori Asistente (QA)\" into the bot name text input"
+      },
+      {
+        "type": "action",
+        "description": "Type \"¡Hola! Soy Ori. ¿En qué puedo ayudarte hoy?\" into the Spanish welcome message textarea"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Hi! I'm Ori. How can I help you today?\" into the English welcome message textarea"
+      },
+      {
+        "type": "action",
+        "description": "Type \"You are Ori, an AI assistant for Integro Suite. Be concise and helpful.\" into the system prompt textarea"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Ver planes\" into the quick reply input field"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter"
+      },
+      {
+        "type": "action",
+        "description": "Type \"Hablar con soporte\" into the quick reply input field"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Guardar cambios\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Cambios guardados\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Edit fallback message and save successfully",
+    "description": "Verifies the fallback/behavior message can be edited and saved with a visible success confirmation.",
+    "category": "Bot Identity Settings",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Bot Identity\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/bot-identity\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"Lo siento, no tengo esa información. ¿Quieres que te contacte un asesor?\" into the fallback message field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Guardar cambios\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Cambios guardados\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Set WhatsApp URL and save successfully",
+    "description": "Verifies a WhatsApp contact URL can be entered and saved with a visible success confirmation.",
+    "category": "Bot Identity Settings",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Bot Identity\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/bot-identity\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"https://wa.me/5491112345678\" into the WhatsApp URL field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Guardar cambios\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Cambios guardados\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Select timezone and save successfully",
+    "description": "Verifies timezone selection can be changed and saved with a visible success confirmation.",
+    "category": "Bot Identity Settings",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Bot Identity\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/bot-identity\""
+      },
+      {
+        "type": "action",
+        "description": "Select \"America/Argentina/Buenos_Aires\" from the timezone dropdown"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Guardar cambios\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Cambios guardados\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Bot settings are loaded and visible on page open",
+    "description": "Verifies existing bot settings are fetched and displayed when opening the Bot Identity page.",
+    "category": "Bot Identity Settings",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Bot Identity\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/bot-identity\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Bot name text input\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Spanish welcome message textarea\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"English welcome message textarea\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"System prompt textarea\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Add a new crawl URL with a selected depth and see it listed as pending",
+    "description": "Verifies an authenticated user can add a crawl URL with a crawl depth and see it appear in the list with a pending status.",
+    "category": "Knowledge Base Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Knowledge Base\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click Agregar URL button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Agregar URL\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "Validate required URL input when adding a crawl URL",
+    "description": "Verifies the UI prevents adding a crawl URL when the URL field is empty and shows a visible validation/error message.",
+    "category": "Knowledge Base Management",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Knowledge Base\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click Agregar URL button"
+      },
+      {
+        "type": "action",
+        "description": "Click Agregar to add the URL"
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "Add a crawl URL using a deeper crawl depth option",
+    "description": "Verifies selecting a non-default crawl depth is reflected by successfully adding the URL and showing it in the list.",
+    "category": "Knowledge Base Management",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Knowledge Base\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Click Agregar URL button"
+      },
+      {
+        "type": "action",
+        "description": "Select \"2\" from crawl depth dropdown"
+      }
+    ]
+  },
+  {
+    "id": "TC023",
+    "title": "Browse indexed chunks by expanding the chunks browser section",
+    "description": "Verifies the chunks browser can be expanded and shows visible chunk content/rows for inspection.",
+    "category": "Knowledge Base Management",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the Login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Knowledge Base\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Expand chunks browser section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Chunks\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC024",
+    "title": "Save widget appearance changes and see success feedback",
+    "description": "Verifies an admin can customize widget colors/position/size, preview changes, copy embed code, and save successfully.",
+    "category": "Widget Customizer",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/widget\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Guardar configuracion\" button"
+      }
+    ]
+  },
+  {
+    "id": "TC025",
+    "title": "Change primary and background colors updates live preview",
+    "description": "Verifies changing primary and background colors reflects in the live widget preview.",
+    "category": "Widget Customizer",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Change primary color using color picker"
+      },
+      {
+        "type": "action",
+        "description": "Change background color using color picker"
+      }
+    ]
+  },
+  {
+    "id": "TC026",
+    "title": "Toggle widget position between bottom-right and bottom-left",
+    "description": "Verifies the widget position toggle changes the preview position setting.",
+    "category": "Widget Customizer",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Toggle widget position between bottom-right and bottom-left"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"bottom-left\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC027",
+    "title": "Adjust width and height sliders and verify preview remains visible",
+    "description": "Verifies resizing controls can be adjusted and the live preview remains visible afterwards.",
+    "category": "Widget Customizer",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Adjust width slider"
+      },
+      {
+        "type": "action",
+        "description": "Adjust height slider"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Live widget preview\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC028",
+    "title": "Toggle optional widget UI settings and save successfully",
+    "description": "Verifies toggling optional settings (powered by, feedback buttons) can be saved with success feedback.",
+    "category": "Widget Customizer",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Toggle show powered by"
+      },
+      {
+        "type": "action",
+        "description": "Toggle show feedback buttons"
+      },
+      {
+        "type": "action",
+        "description": "Click Guardar configuracion button"
+      }
+    ]
+  },
+  {
+    "id": "TC029",
+    "title": "Add an approved domain and save successfully",
+    "description": "Verifies adding a valid domain to the whitelist can be saved and success feedback appears.",
+    "category": "Widget Customizer",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Add approved domains"
+      },
+      {
+        "type": "action",
+        "description": "Click Guardar configuracion button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Guardado\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC030",
+    "title": "Reject invalid approved domain on save with error feedback",
+    "description": "Verifies an invalid domain entry triggers visible error feedback when saving.",
+    "category": "Widget Customizer",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Add approved domains"
+      },
+      {
+        "type": "action",
+        "description": "Click Guardar configuracion button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"error\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC031",
+    "title": "Remove an approved domain and save persists changes",
+    "description": "Verifies a domain can be removed from the whitelist and saving shows success feedback.",
+    "category": "Widget Customizer",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "action",
+        "description": "Remove approved domains"
+      },
+      {
+        "type": "action",
+        "description": "Click Guardar configuracion button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Guardado\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC032",
+    "title": "Widget customizer loads with live preview visible",
+    "description": "Verifies the widget customizer page loads and shows the live preview section.",
+    "category": "Widget Customizer",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Widget\" in the main navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/widget\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Live widget preview\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC033",
+    "title": "View Conversations page and switch between Conversaciones and Leads tabs",
+    "description": "Verifies an authenticated user can open Conversations and switch between the two main tabs.",
+    "category": "Conversations and Leads",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/conversations\""
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Leads\" tab"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Exportar CSV\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC034",
+    "title": "Search conversations by session ID and see filtered results",
+    "description": "Verifies searching by session ID updates the visible conversation list.",
+    "category": "Conversations and Leads",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/conversations\""
+      },
+      {
+        "type": "action",
+        "description": "Type \"test\" into the conversation search field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Conversations list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC035",
+    "title": "Expand a conversation to view messages",
+    "description": "Verifies a user can expand a conversation row/card and see message content.",
+    "category": "Conversations and Leads",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/conversations\""
+      },
+      {
+        "type": "action",
+        "description": "Click on the first conversation in the list to expand it"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Conversation messages\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC036",
+    "title": "Leads tab shows leads table columns (name, email, whatsapp)",
+    "description": "Verifies the Leads tab renders the leads table with expected visible fields.",
+    "category": "Conversations and Leads",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Leads\" tab"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Nombre\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC037",
+    "title": "Exportar CSV is available from Leads tab and provides visible feedback",
+    "description": "Verifies clicking Exportar CSV from Leads provides a visible success/started state (without validating file download).",
+    "category": "Conversations and Leads",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Leads\" tab"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Exportar CSV\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"Exportar\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC038",
+    "title": "Exportar CSV from Conversaciones flow after browsing and expanding a conversation",
+    "description": "Verifies the end-to-end flow: switch tabs, search, expand conversation, then export leads CSV from the Leads tab.",
+    "category": "Conversations and Leads",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Type \"a\" into the conversation search field"
+      },
+      {
+        "type": "action",
+        "description": "Click on the first conversation in the list to expand it"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Conversation messages\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Leads\" tab"
+      }
+    ]
+  },
+  {
+    "id": "TC039",
+    "title": "Empty or no-match conversation search shows empty state messaging",
+    "description": "Verifies searching with a value that yields no results shows an empty state rather than breaking the page.",
+    "category": "Conversations and Leads",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Conversations\" (or \"Conversaciones\") in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Type \"NO_MATCH_SESSION_999999\" into the conversation search field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"No\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Conversations list\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC040",
+    "title": "Save a valid webhook configuration after a successful test",
+    "description": "Verifies an authenticated admin can test a valid webhook and save the configuration with success feedback.",
+    "category": "Integrations",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Type \"https://example.com/webhook\" into the webhook URL input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Test\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"success\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC041",
+    "title": "Webhook test shows error feedback when webhook rejects or fails",
+    "description": "Verifies the UI shows an error state/message when the webhook test fails.",
+    "category": "Integrations",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Type \"https://example.invalid/webhook\" into the webhook URL input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Test\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"error\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC042",
+    "title": "Save webhook configuration shows success feedback",
+    "description": "Verifies the configuration can be saved from the Integrations page and a success confirmation is shown.",
+    "category": "Integrations",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Type \"https://example.com/webhook\" into the webhook URL input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"guard\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC043",
+    "title": "Enable email notifications and enter a notification email",
+    "description": "Verifies email notifications can be enabled and an email can be entered when toggled on.",
+    "category": "Integrations",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Toggle email notifications on"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Notification email\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC044",
+    "title": "Save configuration with email notifications enabled",
+    "description": "Verifies saving succeeds when email notifications are enabled and a notification email is provided.",
+    "category": "Integrations",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Toggle email notifications on"
+      },
+      {
+        "type": "action",
+        "description": "Type \"alerts@example.com\" into the notification email field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"success\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC045",
+    "title": "View payload format example on Integrations page",
+    "description": "Verifies the payload format example/help text is visible to assist integration setup.",
+    "category": "Integrations",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"payload\" is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"example\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC046",
+    "title": "Attempt to test webhook with empty URL shows validation/blocked behavior",
+    "description": "Verifies the UI prevents running a test with an empty webhook URL or shows a visible validation message.",
+    "category": "Integrations",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Test\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"webhook\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC047",
+    "title": "Attempt to save with an invalid webhook URL shows error feedback",
+    "description": "Verifies saving configuration fails visibly or shows validation when webhook URL format is invalid.",
+    "category": "Integrations",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Iniciar sesión\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click on \"Integrations\" in the main navigation menu"
+      },
+      {
+        "type": "action",
+        "description": "Type \"not a url\" into the webhook URL input field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Guardar configuracion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text \"error\" is visible"
+      }
+    ]
+  },
+  {
+    "id": "TC048",
+    "title": "Navigate between main admin sections using the sidebar (API Config -> Bot Identity -> Knowledge Base)",
+    "description": "Verifies the sidebar links navigate to the correct pages and the URL updates accordingly.",
+    "category": "Sidebar Navigation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Configuracion API\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Identidad del Bot\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/bot-identity\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Knowledge Base\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/knowledge-base\""
+      }
+    ]
+  },
+  {
+    "id": "TC049",
+    "title": "Navigate to Widget Customizer from the sidebar",
+    "description": "Verifies clicking the Widget link opens the widget customization page.",
+    "category": "Sidebar Navigation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Widget\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/widget\"},"
+      }
+    ]
+  },
+  {
+    "id": "TC050",
+    "title": "Navigate to Conversations from the sidebar",
+    "description": "Verifies clicking the Conversations link opens the conversations page.",
+    "category": "Sidebar Navigation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Conversaciones\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/conversations\""
+      }
+    ]
+  },
+  {
+    "id": "TC051",
+    "title": "Navigate to Integrations from the sidebar",
+    "description": "Verifies clicking the Integrations link opens the integrations page.",
+    "category": "Sidebar Navigation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Integraciones\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/integrations\""
+      }
+    ]
+  },
+  {
+    "id": "TC052",
+    "title": "Sign out using the sidebar and return to login",
+    "description": "Verifies the sign-out button logs the user out and redirects to the login page.",
+    "category": "Sidebar Navigation",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Cerrar sesion\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/login\""
+      },
+      {
+        "type": "assertion",
+        "description": "Verify page title contains \"Login\""
+      }
+    ]
+  },
+  {
+    "id": "TC053",
+    "title": "Sidebar navigation remains functional after visiting multiple sections (Dashboard -> API Config -> Dashboard)",
+    "description": "Verifies the user can return to Dashboard after navigating away using the sidebar.",
+    "category": "Sidebar Navigation",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Dashboard\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Configuracion API\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/api-config\""
+      },
+      {
+        "type": "action",
+        "description": "Click \"Dashboard\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL contains \"/\""
+      }
+    ]
+  },
+  {
+    "id": "TC054",
+    "title": "Verify sidebar is visible on authenticated admin pages",
+    "description": "Ensures the global sidebar is present across multiple authenticated routes.",
+    "category": "Sidebar Navigation",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_USER}}\" into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Type \"{{LOGIN_PASSWORD}}\" into the password field"
+      },
+      {
+        "type": "action",
+        "description": "Click the \"Login\" button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Sidebar navigation\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Knowledge Base\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Sidebar navigation\" is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click \"Integraciones\" nav link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify element \"Sidebar navigation\" is visible"
+      }
+    ]
+  }
+]
