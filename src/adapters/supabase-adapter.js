@@ -12,7 +12,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('[SupabaseAdapter] Variables de entorno VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY no configuradas.')
 }
 
-const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '', {
+const url = supabaseUrl || 'https://placeholder.supabase.co'
+const key = supabaseAnonKey || 'placeholder'
+
+const supabase = createClient(url, key, {
     auth: {
         autoRefreshToken: true,
         persistSession: true,

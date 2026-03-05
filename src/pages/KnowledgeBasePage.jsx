@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchRows, insertRow, deleteRow, subscribeToTable } from '../adapters/supabase-adapter'
+import { fetchRows, insertRow, deleteRow, subscribeToTable, uploadFile, getSupabaseClient } from '../adapters/supabase-adapter'
 import { useAuth } from '../hooks/useAuth'
 import {
     Globe, FileText, Plus, Trash2, RefreshCw, Loader2,
@@ -28,6 +28,7 @@ export default function KnowledgeBasePage() {
     const [showAddUrl, setShowAddUrl] = useState(false)
     const [showChunks, setShowChunks] = useState(false)
     const [chunkSearch, setChunkSearch] = useState('')
+    const [uploading, setUploading] = useState(false)
 
     useEffect(() => {
         loadData()
@@ -82,14 +83,25 @@ export default function KnowledgeBasePage() {
 
     async function handleTriggerCrawl(urlId) {
         try {
+            const { data: { session } } = await getSupabaseClient().auth.getSession()
             const response = await fetch('/admin/crawl', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session?.access_token}`
+                },
                 body: JSON.stringify({ crawlUrlId: urlId }),
             })
+            if (response.status === 401) {
+                alert('No autorizado o sesión expirada. Por favor inicie sesión nuevamente.')
+                return
+            }
             if (!response.ok) throw new Error('Crawl failed')
             await loadCrawlUrls()
-        } catch (err) { console.error(err) }
+        } catch (err) {
+            console.error(err)
+            alert('Error al iniciar crawl: ' + err.message)
+        }
     }
 
     async function handleDeleteChunk(id) {
@@ -224,9 +236,37 @@ export default function KnowledgeBasePage() {
                         <FileText className="w-5 h-5 text-primary-400" />
                         <h2 className="text-lg font-semibold">Documentos</h2>
                     </div>
-                    <label className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-600 hover:bg-primary-500 text-white text-sm cursor-pointer transition-colors">
-                        <Upload className="w-4 h-4" /> Subir archivo
-                        <input type="file" accept=".pdf,.txt,.docx" className="hidden" onChange={() => {/* TODO: upload handler */ }} />
+                    <label className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-sm transition-colors ${uploading ? 'bg-primary-600/50 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-500 cursor-pointer'}`}>
+                        {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                        {uploading ? 'Subiendo...' : 'Subir archivo'}
+                        <input type="file" accept=".pdf,.txt,.docx" className="hidden" disabled={uploading} onChange={async (e) => {
+                            const file = e.target.files?.[0]
+                            if (!file) return
+                            setUploading(true)
+                            try {
+                                const fileExt = file.name.split('.').pop()
+                                const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
+                                const filePath = `${orgId}/${fileName}`
+
+                                await uploadFile('documents', filePath, file)
+
+                                const { data: { publicUrl } } = getSupabaseClient().storage.from('documents').getPublicUrl(filePath)
+
+                                await insertRow('uploaded_documents', {
+                                    org_id: orgId,
+                                    filename: file.name,
+                                    file_url: publicUrl,
+                                    file_type: fileExt,
+                                    status: 'pending'
+                                })
+                                await loadDocuments()
+                            } catch (err) {
+                                alert('Error al subir el archivo: ' + err.message)
+                            } finally {
+                                setUploading(false)
+                                e.target.value = null // reset input
+                            }
+                        }} />
                     </label>
                 </div>
                 {documents.length === 0 ? (

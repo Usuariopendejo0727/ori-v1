@@ -37,8 +37,8 @@ export default function ConversationsPage() {
     function exportLeadsCsv() {
         const headers = ['Nombre', 'Email', 'WhatsApp', 'Session ID', 'Fecha']
         const rows = leadsList.map(l => [l.name || '', l.email || '', l.whatsapp || '', l.session_id || '', l.created_at || ''])
-        const csvContent = [headers, ...rows].map(r => r.join(',')).join('\n')
-        const blob = new Blob([csvContent], { type: 'text/csv' })
+        const csvContent = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
         const url = URL.createObjectURL(blob)
         const link = document.createElement('a')
         link.href = url
@@ -118,8 +118,8 @@ export default function ConversationsPage() {
                                                 {getSessionMessages(session.session_id).map(msg => (
                                                     <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                                         <div className={`max-w-[75%] px-3 py-2 rounded-xl text-sm ${msg.role === 'user'
-                                                                ? 'bg-primary-600 text-white rounded-tr-sm'
-                                                                : 'bg-surface-700 text-surface-200 rounded-tl-sm'
+                                                            ? 'bg-primary-600 text-white rounded-tr-sm'
+                                                            : 'bg-surface-700 text-surface-200 rounded-tl-sm'
                                                             }`}>
                                                             {msg.content}
                                                             <p className="text-[10px] mt-1 opacity-60">{new Date(msg.created_at).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}</p>

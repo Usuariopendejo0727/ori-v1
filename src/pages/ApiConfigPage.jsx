@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchRows, upsertRow } from '../adapters/supabase-adapter'
+import { getSupabaseClient } from '../adapters/supabase-adapter'
 import { useAuth } from '../hooks/useAuth'
 import {
     Key, Cpu, Thermometer, Hash,
@@ -17,11 +17,12 @@ export default function ApiConfigPage() {
     const { user } = useAuth()
     const orgId = user?.user_metadata?.org_id
     const [config, setConfig] = useState({
-        openai_api_key_encrypted: '',
         model: 'gpt-4o-mini',
         temperature: 0.7,
         max_tokens: 800,
     })
+    const [apiKeyInput, setApiKeyInput] = useState('')
+    const [hasExistingKey, setHasExistingKey] = useState(false)
     const [showApiKey, setShowApiKey] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isSaving, setIsSaving] = useState(false)
@@ -33,9 +34,19 @@ export default function ApiConfigPage() {
 
     async function loadConfig() {
         try {
-            const rows = await fetchRows('ai_config')
-            if (rows.length > 0) {
-                setConfig(rows[0])
+            const { data: { session } } = await getSupabaseClient().auth.getSession()
+            const res = await fetch('/admin/ai-config', {
+                headers: { 'Authorization': `Bearer ${session?.access_token}` }
+            })
+            if (res.ok) {
+                const data = await res.json()
+                setConfig({
+                    model: data.model || 'gpt-4o-mini',
+                    temperature: data.temperature || 0.7,
+                    max_tokens: data.max_tokens || 800,
+                    org_id: data.org_id
+                })
+                setHasExistingKey(true)
             }
         } catch {
             // No config yet — use defaults
@@ -48,11 +59,25 @@ export default function ApiConfigPage() {
         setIsSaving(true)
         setSaveStatus(null)
         try {
-            await upsertRow('ai_config', {
+            const { data: { session } } = await getSupabaseClient().auth.getSession()
+            const payload = {
                 ...config,
                 org_id: orgId || config.org_id,
+                openai_api_key: apiKeyInput
+            }
+            const res = await fetch('/admin/ai-config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session?.access_token}`
+                },
+                body: JSON.stringify(payload)
             })
+            if (!res.ok) throw new Error('Failed to save')
+
             setSaveStatus('success')
+            setApiKeyInput('') // Clear input after save
+            setHasExistingKey(true)
             setTimeout(() => setSaveStatus(null), 3000)
         } catch (saveError) {
             setSaveStatus('error')
@@ -60,8 +85,6 @@ export default function ApiConfigPage() {
             setIsSaving(false)
         }
     }
-
-    const selectedModel = MODELS.find(m => m.id === config.model) || MODELS[1]
 
     if (isLoading) {
         return (
@@ -88,9 +111,9 @@ export default function ApiConfigPage() {
                     <input
                         id="api-key-input"
                         type={showApiKey ? 'text' : 'password'}
-                        value={config.openai_api_key_encrypted}
-                        onChange={(e) => setConfig({ ...config, openai_api_key_encrypted: e.target.value })}
-                        placeholder="sk-..."
+                        value={apiKeyInput}
+                        onChange={(e) => setApiKeyInput(e.target.value)}
+                        placeholder={hasExistingKey ? "sk-...••••" : "sk-..."}
                         className="w-full pr-12 pl-4 py-2.5 rounded-lg bg-surface-800 border border-surface-600 text-surface-100 placeholder-surface-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500/50 outline-none transition-all duration-200 text-sm font-mono"
                     />
                     <button
@@ -101,7 +124,7 @@ export default function ApiConfigPage() {
                         {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                 </div>
-                <p className="text-xs text-surface-500">La API key se almacena encriptada server-side. Nunca se expone en el frontend.</p>
+                <p className="text-xs text-surface-500">La API key se cifra antes de guardarse en la base de datos de manera segura.</p>
             </div>
 
             {/* Model Selection */}
@@ -116,8 +139,8 @@ export default function ApiConfigPage() {
                             key={model.id}
                             onClick={() => setConfig({ ...config, model: model.id })}
                             className={`p-4 rounded-lg border text-left cursor-pointer transition-all duration-200 ${config.model === model.id
-                                    ? 'border-primary-500 bg-primary-500/10'
-                                    : 'border-surface-600 bg-surface-800 hover:border-surface-500'
+                                ? 'border-primary-500 bg-primary-500/10'
+                                : 'border-surface-600 bg-surface-800 hover:border-surface-500'
                                 }`}
                         >
                             <p className="font-medium text-surface-100">{model.name}</p>

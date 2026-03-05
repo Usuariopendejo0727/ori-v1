@@ -16,12 +16,40 @@ dotenvConfig()
 const app = express()
 const PORT = process.env.PORT || 3001
 
+const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'ENCRYPTION_KEY']
+for (const varName of requiredEnvVars) {
+    if (!process.env[varName]) {
+        console.error('FATAL: La variable de entorno ' + varName + ' es requerida.')
+        process.exit(1)
+    }
+}
+
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY
+if (ENCRYPTION_KEY.length < 32) {
+    console.error('FATAL: ENCRYPTION_KEY debe tener al menos 32 caracteres.')
+    process.exit(1)
+}
+
 const supabase = createClient(
-    process.env.SUPABASE_URL || '',
-    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
 )
 
-app.use(cors())
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
+    : ['http://localhost:5173']
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true)
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error('No permitido por CORS'))
+        }
+    },
+    credentials: true,
+}))
 app.use(express.json())
 
 /* ========================================
@@ -40,7 +68,7 @@ const chatLimiter = rateLimit({
    Helpers: Encriptación
    ======================================== */
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'default-32-char-encryption-key!!'
+// ENCRYPTION_KEY is now validated during initialization
 const IV_LENGTH = 16
 
 function decryptApiKey(encryptedText) {
@@ -111,7 +139,6 @@ async function searchKnowledge(orgId, queryEmbedding) {
    ======================================== */
 
 async function validateDomain(botId, origin) {
-    if (!origin) return true // Allow server-to-server
     const { data: config } = await supabase
         .from('widget_config')
         .select('approved_domains')
@@ -119,11 +146,37 @@ async function validateDomain(botId, origin) {
         .single()
 
     if (!config || !config.approved_domains || config.approved_domains.length === 0) return true
+    if (!origin) return false
 
-    const originHostname = new URL(origin).hostname
-    return config.approved_domains.some(domain =>
-        originHostname === domain || originHostname.endsWith(`.${domain}`)
-    )
+    try {
+        const originHostname = new URL(origin).hostname
+        return config.approved_domains.some(domain =>
+            originHostname === domain || originHostname.endsWith(`.${domain}`)
+        )
+    } catch {
+        return false
+    }
+}
+
+function isAllowedWebhookUrl(url) {
+    try {
+        const parsed = new URL(url)
+        if (!['http:', 'https:'].includes(parsed.protocol)) return false
+        const hostname = parsed.hostname
+        const blockedHosts = [
+            '169.254.169.254', 'metadata.google.internal',
+            '100.100.100.200', 'localhost', '127.0.0.1', '::1', '0.0.0.0'
+        ]
+        if (blockedHosts.includes(hostname)) return false
+        const ipv4Match = hostname.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/)
+        if (ipv4Match) {
+            const [, a, b] = ipv4Match.map(Number)
+            if (a === 10) return false
+            if (a === 172 && (b >= 16 && b <= 31)) return false
+            if (a === 192 && b === 168) return false
+        }
+        return true
+    } catch { return false }
 }
 
 /* ========================================
@@ -148,7 +201,7 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
         const { data: botSettings } = await supabase
             .from('bot_settings')
             .select('*')
-            .limit(1)
+            .eq('id', botId)
             .single()
 
         if (!botSettings) {
@@ -235,12 +288,17 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
             tokens_used: tokensUsed,
         })
 
+        const { count: realMessageCount } = await supabase
+            .from('chat_messages')
+            .select('*', { count: 'exact', head: true })
+            .eq('session_id', currentSessionId)
+
         // Actualizar sesión
         await supabase
             .from('chat_sessions')
             .update({
                 last_message_at: new Date().toISOString(),
-                message_count: chatHistory.length + 2,
+                message_count: realMessageCount || 0,
             })
             .eq('session_id', currentSessionId)
 
@@ -277,7 +335,7 @@ app.post('/api/chat', chatLimiter, async (req, res) => {
 
 app.post('/api/leads', chatLimiter, async (req, res) => {
     try {
-        const { name, email, whatsapp, sessionId } = req.body
+        const { name, email, whatsapp, sessionId, botId } = req.body
 
         if (!name && !email && !whatsapp) {
             return res.status(400).json({ error: 'Se requiere al menos un dato de contacto.' })
@@ -287,10 +345,13 @@ app.post('/api/leads', chatLimiter, async (req, res) => {
         const { data: botSettings } = await supabase
             .from('bot_settings')
             .select('org_id')
-            .limit(1)
+            .eq('id', botId)
             .single()
 
         const orgId = botSettings?.org_id
+        if (!orgId) {
+            return res.status(500).json({ error: 'Configuracion del bot no encontrada. No se puede capturar el lead.' })
+        }
 
         // Insertar lead
         const { data: lead, error } = await supabase
@@ -318,26 +379,30 @@ app.post('/api/leads', chatLimiter, async (req, res) => {
 
         // Enviar webhook si está configurado
         if (integrationConfig?.webhook_url) {
-            try {
-                const webhookResponse = await fetch(integrationConfig.webhook_url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        event: 'lead_captured',
-                        timestamp: new Date().toISOString(),
-                        data: { name, email, whatsapp, session_id: sessionId },
-                    }),
-                })
-
-                await supabase
-                    .from('leads')
-                    .update({
-                        webhook_sent: true,
-                        webhook_response: { status: webhookResponse.status },
+            if (!isAllowedWebhookUrl(integrationConfig.webhook_url)) {
+                console.warn('[Webhook] URL bloqueada por politica de seguridad:', integrationConfig.webhook_url)
+            } else {
+                try {
+                    const webhookResponse = await fetch(integrationConfig.webhook_url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            event: 'lead_captured',
+                            timestamp: new Date().toISOString(),
+                            data: { name, email, whatsapp, session_id: sessionId },
+                        }),
                     })
-                    .eq('id', lead.id)
-            } catch (webhookError) {
-                console.error('[Webhook Error]:', webhookError.message)
+
+                    await supabase
+                        .from('leads')
+                        .update({
+                            webhook_sent: true,
+                            webhook_response: { status: webhookResponse.status },
+                        })
+                        .eq('id', lead.id)
+                } catch (webhookError) {
+                    console.error('[Webhook Error]:', webhookError.message)
+                }
             }
         }
 
@@ -355,17 +420,18 @@ app.post('/api/leads', chatLimiter, async (req, res) => {
 app.get('/api/widget-config', async (req, res) => {
     try {
         const { botId } = req.query
+        if (!botId) return res.status(400).json({ error: 'botId es requerido.' })
 
         const { data: widgetConfig } = await supabase
             .from('widget_config')
             .select('*')
-            .limit(1)
+            .eq('id', botId)
             .single()
 
         const { data: botSettings } = await supabase
             .from('bot_settings')
             .select('bot_name, avatar_url, welcome_message_es, welcome_message_en, quick_replies, business_hours, out_of_office_message_es, out_of_office_message_en, timezone')
-            .limit(1)
+            .eq('id', botId)
             .single()
 
         res.json({ widget: widgetConfig, bot: botSettings })
@@ -434,6 +500,39 @@ app.get('/admin/leads', authMiddleware, async (req, res) => {
         res.json(data || [])
     } catch (error) {
         res.status(500).json({ error: error.message })
+    }
+})
+
+app.post('/admin/ai-config', authMiddleware, async (req, res) => {
+    try {
+        const { openai_api_key, model, temperature, max_tokens, org_id } = req.body
+        const payload = { model, temperature, max_tokens, org_id }
+        if (openai_api_key && openai_api_key.trim() !== '') {
+            payload.openai_api_key_encrypted = encryptApiKey(openai_api_key)
+        }
+
+        const { error } = await supabase
+            .from('ai_config')
+            .upsert(payload, { onConflict: 'org_id' })
+
+        if (error) throw error
+
+        res.json({ success: true })
+    } catch (error) {
+        res.status(500).json({ error: 'Error al guardar configuracion AI.' })
+    }
+})
+
+app.get('/admin/ai-config', authMiddleware, async (req, res) => {
+    try {
+        const { data } = await supabase
+            .from('ai_config')
+            .select('model, temperature, max_tokens, org_id')
+            .limit(1)
+            .single()
+        res.json(data || { model: 'gpt-4o-mini', temperature: 0.7, max_tokens: 800 })
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener configuracion.' })
     }
 })
 
@@ -526,7 +625,13 @@ async function runCrawlPipeline(crawlUrl) {
                         const fullUrl = new URL(href, url)
                         if (fullUrl.hostname === baseUrl.hostname && fullUrl.protocol.startsWith('http')) {
                             fullUrl.hash = ''
-                            links.add(fullUrl.toString())
+                            const trackingParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'ref', 'fbclid', 'gclid', 'mc_cid', 'mc_eid']
+                            trackingParams.forEach(p => fullUrl.searchParams.delete(p))
+                            let normalized = fullUrl.toString()
+                            if (normalized.endsWith('/') && fullUrl.pathname !== '/') {
+                                normalized = normalized.slice(0, -1)
+                            }
+                            links.add(normalized)
                         }
                     } catch { }
                 })
@@ -615,14 +720,17 @@ async function runCrawlPipeline(crawlUrl) {
 }
 
 function chunkText(text, chunkSize = 500, overlap = 50) {
-    const words = text.split(/\s+/)
+    const words = text.split(/\s+/).filter(w => w.length > 0)
+    if (words.length === 0) return []
+    if (overlap >= chunkSize) overlap = 0
     const chunks = []
     let currentIndex = 0
+    const step = chunkSize - overlap
 
     while (currentIndex < words.length) {
         const chunk = words.slice(currentIndex, currentIndex + chunkSize).join(' ')
         chunks.push(chunk)
-        currentIndex += chunkSize - overlap
+        currentIndex += step
     }
 
     return chunks

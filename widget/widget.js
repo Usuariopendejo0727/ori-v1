@@ -6,9 +6,13 @@
      Inspirado en Gemini / ChatGPT
      ======================================== */
 
-  const SCRIPT_TAG = document.currentScript;
+  const SCRIPT_TAG = document.currentScript || document.querySelector('script[data-bot-id]');
   const BOT_ID = SCRIPT_TAG?.getAttribute('data-bot-id') || '';
   const API_BASE = SCRIPT_TAG?.getAttribute('data-api-url') || window.location.origin;
+
+  if (!BOT_ID) {
+    console.error('[Ori Widget] No se encontro data-bot-id en el script tag. El widget no se inicializara.');
+  }
 
   let config = null;
   let sessionId = null;
@@ -21,6 +25,18 @@
     const lang = navigator.language || navigator.userLanguage || 'es';
     detectedLanguage = lang.startsWith('en') ? 'en' : 'es';
     return detectedLanguage;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = String(str != null ? str : '');
+    return div.innerHTML;
+  }
+
+  function escapeAttr(str) {
+    return String(str != null ? str : '')
+      .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   /* ========================================
@@ -344,10 +360,10 @@
         <!-- Header -->
         <div class="ori-hdr">
           <div class="ori-hdr-avatar">
-            ${avatarUrl ? `<img src="${avatarUrl}" alt="${botName}">` : botName.charAt(0)}
+            ${avatarUrl ? `<img src="${escapeAttr(avatarUrl)}" alt="${escapeAttr(botName)}">` : escapeHtml(botName.charAt(0))}
           </div>
           <div class="ori-hdr-info">
-            <div class="ori-hdr-name">${botName}</div>
+            <div class="ori-hdr-name">${escapeHtml(botName)}</div>
             <div class="ori-hdr-status">${lang === 'en' ? 'Online' : 'En línea'}</div>
           </div>
           <button class="ori-hdr-close" id="close">
@@ -367,7 +383,7 @@
             <h2>${lang === 'en' ? 'How can I help you?' : '¿Cómo puedo ayudarte?'}</h2>
             <p>${lang === 'en' ? `I'm ${botName}, your Integro Suite assistant.` : `Soy ${botName}, tu asistente de Integro Suite.`}</p>
             <div class="ori-chips" id="chips">
-              ${quickReplies.map(q => `<button class="ori-chip">${q}</button>`).join('')}
+              ${quickReplies.map(q => `<button class="ori-chip">${escapeHtml(q)}</button>`).join('')}
             </div>
           </div>
 
@@ -381,7 +397,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
               <path d="M12 3l1.912 5.813a2 2 0 001.272 1.278L21 12l-5.816 1.91a2 2 0 00-1.272 1.278L12 21l-1.912-5.813a2 2 0 00-1.272-1.278L3 12l5.816-1.91a2 2 0 001.272-1.277L12 3z"/>
             </svg>
-            <textarea id="input" rows="1" placeholder="${lang === 'en' ? `Send a message to ${botName}...` : `Envía un mensaje a ${botName}...`}"></textarea>
+            <textarea id="input" rows="1" placeholder="${escapeAttr(lang === 'en' ? `Send a message to ${botName}...` : `Envía un mensaje a ${botName}...`)}"></textarea>
             <button class="ori-send-ai" id="send">
               <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
             </button>
@@ -470,15 +486,15 @@
       for (const m of messages) {
         const isUser = m.role === 'user';
         html += `<div class="ori-msg ${isUser ? 'user' : 'bot'}">`;
-        if (!isUser) html += `<div class="ori-msg-ava">${botName.charAt(0)}</div>`;
-        html += `<div class="ori-msg-body"><div class="ori-bubble">${m.content.replace(/\n/g, '<br>')}</div>`;
+        if (!isUser) html += `<div class="ori-msg-ava">${escapeHtml(botName.charAt(0))}</div>`;
+        html += `<div class="ori-msg-body"><div class="ori-bubble">${escapeHtml(m.content).replace(/\n/g, '<br>')}</div>`;
         if (!isUser && showFeedback && m.id) {
-          html += `<div class="ori-fb" data-id="${m.id}"><button data-f="positive">👍</button><button data-f="negative">👎</button></div>`;
+          html += `<div class="ori-fb" data-id="${escapeAttr(m.id)}"><button data-f="positive">👍</button><button data-f="negative">👎</button></div>`;
         }
         html += `</div></div>`;
       }
       if (isTyping) {
-        html += `<div class="ori-typing"><div class="ori-typing-ava">${botName.charAt(0)}</div><div class="ori-dots"><span></span><span></span><span></span></div></div>`;
+        html += `<div class="ori-typing"><div class="ori-typing-ava">${escapeHtml(botName.charAt(0))}</div><div class="ori-dots"><span></span><span></span><span></span></div></div>`;
       }
       msgsEl.innerHTML = html;
       msgsEl.scrollTop = msgsEl.scrollHeight;
@@ -499,6 +515,7 @@
      Init
      ======================================== */
   async function init() {
+    if (!BOT_ID) return;
     await fetchConfig();
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', createWidget);
     else createWidget();

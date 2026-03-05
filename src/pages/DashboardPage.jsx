@@ -58,29 +58,47 @@ export default function DashboardPage() {
 
     const totalConversations = sessions.length
     const totalLeads = leadsList.length
-    const positveFeedback = messages.filter(m => m.feedback === 'positive').length
+    const positiveFeedback = messages.filter(m => m.feedback === 'positive').length
     const negativeFeedback = messages.filter(m => m.feedback === 'negative').length
-    const totalFeedback = positveFeedback + negativeFeedback
+    const totalFeedback = positiveFeedback + negativeFeedback
     const satisfactionRate = totalFeedback > 0
-        ? Math.round((positveFeedback / totalFeedback) * 100)
+        ? Math.round((positiveFeedback / totalFeedback) * 100)
         : 0
     const fallbackCount = messages.filter(m =>
-        m.role === 'assistant' && m.sources && JSON.parse(JSON.stringify(m.sources)).length === 0
+        m.role === 'assistant' && (!m.sources || m.sources.length === 0)
     ).length
     const fallbackRate = messages.filter(m => m.role === 'assistant').length > 0
         ? Math.round((fallbackCount / messages.filter(m => m.role === 'assistant').length) * 100)
         : 0
 
-    // Mock chart data (real data would come from aggregations)
-    const chartData = [
-        { name: 'Lun', conversations: 12, leads: 3 },
-        { name: 'Mar', conversations: 19, leads: 5 },
-        { name: 'Mié', conversations: 15, leads: 4 },
-        { name: 'Jue', conversations: 22, leads: 7 },
-        { name: 'Vie', conversations: 28, leads: 9 },
-        { name: 'Sáb', conversations: 8, leads: 2 },
-        { name: 'Dom', conversations: 5, leads: 1 },
-    ]
+    // Aggregate chart data from the last 7 days
+    const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+    const last7Days = Array.from({ length: 7 }).map((_, i) => {
+        const d = new Date()
+        d.setDate(d.getDate() - (6 - i))
+        return {
+            dateStr: d.toISOString().split('T')[0],
+            name: days[d.getDay()],
+            conversations: 0,
+            leads: 0
+        }
+    })
+
+    sessions.forEach(s => {
+        if (!s.started_at) return
+        const dateStr = new Date(s.started_at).toISOString().split('T')[0]
+        const dayData = last7Days.find(d => d.dateStr === dateStr)
+        if (dayData) dayData.conversations++
+    })
+
+    leadsList.forEach(l => {
+        if (!l.created_at) return
+        const dateStr = new Date(l.created_at).toISOString().split('T')[0]
+        const dayData = last7Days.find(d => d.dateStr === dateStr)
+        if (dayData) dayData.leads++
+    })
+
+    const chartData = last7Days
 
     if (isLoading) {
         return (

@@ -8,16 +8,32 @@ export function AuthProvider({ children }) {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        getCurrentUser()
-            .then((currentUser) => setUser(currentUser))
-            .catch(() => setUser(null))
-            .finally(() => setIsLoading(false))
+        let mounted = true;
+
+        const checkSession = async () => {
+            try {
+                const currentUser = await getCurrentUser()
+                if (mounted) setUser(currentUser)
+            } catch {
+                if (mounted) setUser(null)
+            } finally {
+                if (mounted) setIsLoading(false)
+            }
+        }
+
+        checkSession()
 
         const { data: { subscription } } = onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null)
+            if (mounted) {
+                setUser(session?.user ?? null)
+                setIsLoading(false)
+            }
         })
 
-        return () => subscription.unsubscribe()
+        return () => {
+            mounted = false;
+            subscription.unsubscribe()
+        }
     }, [])
 
     const login = async (email, password) => {

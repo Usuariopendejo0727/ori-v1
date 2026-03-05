@@ -74,7 +74,7 @@ export default function WidgetCustomizerPage() {
         setWidgetConfig({ ...widgetConfig, approved_domains: updatedDomains })
     }
 
-    const embedCode = `<script src="https://yourdomain.com/widget.js" data-bot-id="${widgetConfig.id || 'YOUR_BOT_ID'}"></script>`
+    const embedCode = `<script src="${window.location.origin}/widget.js" data-bot-id="${orgId || 'YOUR_BOT_ID'}" data-api-url="${window.location.origin}"></script>`
 
     function copyEmbed() {
         navigator.clipboard.writeText(embedCode)
